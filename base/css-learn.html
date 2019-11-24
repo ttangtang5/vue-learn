@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>css 样式应用</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .red {
+            color: red
+        }
+
+        .weight {
+            font-weight: 200
+        }
+
+        .italic {
+            font-style: italic
+        }
+
+        .active {
+            color: green
+        }
+
+        .size {
+            font-size: 100px
+        }
+    </style>
+</head>
+<body>
+     <div id="app">
+         <div>1、class传递数组形式,可以使用三元表达式, 不是变量需要用引号</div>
+         <h2 :class="['weight', style, flag ? 'italic' : 'size']">这是一个h2标签</h2>
+         <div>简化三元表达式</div>
+         <h2 :class="['weight', style, {'italic': flag}]">这是一个h2标签</h2>
+         <div>2、class直接传递对象, 属性为css类名 引号可有可无</div>
+         <h2 :class="{red : true, 'weight' : flag}">这是一个h2标签</h2>
+         <h2 :class="objCls">这是一个h2标签</h2>
+         <div>3、style 传入对象 属性值存在特殊符号需要加上引号</div>
+         <h2 :style="{ color : 'red', 'font-weight' : 200, 'font-style' : fontStyle}">这是一个h2标签</h2>
+         <div>4、style 传入数组</div>
+         <h2 :style="[style1, style2]">这是一个h2标签</h2>
+     </div>
+
+     <script>
+         new Vue({
+             el: '#app',
+             data: {
+                 msg: 'v-cloak演示',
+                 style: 'red',
+                 flag: true,
+                 objCls: {red : true, 'weight' : this.flag}, //这里直接引用不知为啥失败了 值是正确
+                 fontStyle: 'italic',
+                 style1: {color : 'red'},
+                 style2: {'font-weight' : 200}
+             },
+             mounted() {
+                 //console.log(this.objCls);
+                 //this.objCls.weight = this.flag;
+             },
+             methods: {
+                
+             }
+         });
+     </script>
+</body>
+</html>

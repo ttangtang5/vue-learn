@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>filter 过滤器</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+     <div id="app">
+         <h3>全局filter</h3>
+         <div>filter 第一个参数为需要格式花得值即管道符之前得值  之后得参数为自定义 数量不限</div>
+         {{ msg | demoFilter}}
+         {{ msg | demoFilter('arg')}}
+         <div>filter 可以一次使用多个。 执行顺序从左到右</div>
+         {{ msg | demoFilter | secondFilter}}
+         <h3>私有filter 通过实例里面得filters属性设置</h3>
+         <div>当私有过滤器名和全局一样时，会就近使用私有得filter。</div>
+         {{ msg | primaryFilter }}
+         {{ msg | demoFilter }}
+     </div>
+
+     <script>
+         // 全局filter
+         // 这里得先声明  不然vue实例加载渲染时 会报错找不到filter方法
+          Vue.filter('demoFilter', function(data, arg) {
+            return data + '=====' + arg;
+         });
+
+         Vue.filter('secondFilter', function(data) {
+            return data + '=====second';
+         });
+
+         new Vue({
+             el: '#app',
+             data: {
+                 msg: 'filter演示'
+             },
+             methods: {
+                
+             },
+             filters: {
+                 primaryFilter: function(data) {
+                     return data + 'primaryFilter';
+                 },
+                 demoFilter: function(data) {
+                     return data + 'demoFilter==primary';
+                 }
+             }
+         });
+
+     </script>
+</body>
+</html>

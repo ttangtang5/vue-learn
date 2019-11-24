@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>事件修饰符</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>事件默认冒泡</div>
+        <div>1、通过.stop修饰符阻止冒泡</div>
+        <div class="outDiv" @click="outClick">
+            <input type="button" value="按钮" @click.stop="btnClick">
+        </div>
+        <div>2、通过.prevent阻止默认行为 即元素自带的事件</div>
+        <a href="http://www.baidu.com" @click.prevent="aClick">跳转百度</a>
+        <div>3、通过.capture 实现捕获触发事件机制 即先外层再到内层事件源元素</div>
+        <div class="outDiv" @click.capture="outClick">
+            <input type="button" value="按钮" @click="btnClick">
+        </div>
+        <div>4、通过.slef 实现只有本身元素事件触发才运行</div>
+        <div class="outDiv" @click.self="outClick">
+            <input type="button" value="按钮" @click="btnClick">
+        </div>
+        <div>5、通过.once 实现事件只执行一次</div>
+        <input type="button" value="按钮" @click.once="btnClick">
+        <div>这些修饰符可以同时使用</div>
+        <a href="http://www.baidu.com" @click.prevent.once="aClick">跳转百度</a>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {},
+            methods: {
+                outClick() {
+                    console.log('outdiv 点击事件');
+                },
+                btnClick() {
+                    console.log('button 点击事件');
+                },
+                aClick() {
+                    console.log('点击了链接');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

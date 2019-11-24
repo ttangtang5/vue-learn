@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>条件渲染</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>in 后面可以是普通数组、对象数组、对象、还可以是数值</div>
+        <div>for 循环 key属性只能用String 或 number</div>
+        <ul>
+            <li v-for="(item,index) in arr" :key="item.id">{{index}},{{item.id}},{{item.name}}</li>
+        </ul>
+        <div>for 遍历对象 第三个值才是索引</div>
+        <ul>
+            <li v-for="(val,key,i) in obj" :key="i">key:{{key}},val:{{key}},index:{{i}}</li>
+        </ul>
+        <div>for 循环数值 从1开始</div>
+        <ul>
+            <li v-for="count in 10" :key="count">{{ count }}</li>
+        </ul>
+        <div>for 高级用法 in 后面用方法</div>
+        <div> 关键字：<input type="text" v-model="keyword"></div>
+        <ul>
+            <li v-for="(item,index) in search(keyword)" :key="item.id">{{index}},{{item.id}},{{item.name}}</li>
+        </ul>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                arr: [{
+                        id: 1,
+                        name: '宝马'
+                    },
+                    {
+                        id: 2,
+                        name: '汗血宝马'
+                    },
+                    {
+                        id: 3,
+                        name: '奔驰'
+                    },
+                    {
+                        id: 4,
+                        name: '小奔'
+                    }
+                ],
+                obj: {
+                    id: 123,
+                    name: 'tang',
+                    flag: true
+                },
+                keyword: ''
+            },
+            methods: {
+                search(keyword) {
+                    let result = this.arr.filter( item => {
+                        if (item.name.indexOf(keyword) != -1) {
+                            return true;
+                        }
+
+                        return false;
+                    });
+
+                    return result;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

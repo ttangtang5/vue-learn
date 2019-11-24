@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-cloak-learn</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+     <div id="app">
+         <div>1、v-cloak的作用：解决数据未被渲染前会出现{{}}问题。设置v-cloak之后没有渲染的数据会显示空白</div>
+        <span v-cloak>{{ msg }}</span>
+        <div>2、v-text 属性设置会覆盖整个元素中的内容。</div>
+        <span v-text="msg">===</span>
+        <div>3、v-html 属性设置会覆盖整个元素中的内容。并且会解析内容中的html标签</div>
+        <span v-html="htmlStr">===</span>
+        <div>4、v-bind 可以告诉浏览器，该属性值进行了数据绑定。则会取data中的值，绑定的属性值可以写合法的js表达式</div>
+        <input type="button" value="按钮" v-bind:title="tip + 123" />
+        <div>5、v-on 绑定事件，属性值不可以alert等原生方法</div>
+        <input type="button" value="按钮" v-on:click="onclick(1)"/>
+        <div>method中使用data中的数据或方法都需要通过this调用</div>
+     </div>
+
+     <script>
+         new Vue({
+             el: '#app',
+             data: {
+                 msg: 'v-cloak演示',
+                 htmlStr: '<h1>解析html</h1>',
+                 tip: '按钮提示'
+             },
+             methods: {
+                onclick: function(val) {
+                    console.log(val);
+                    this.showMsg();
+                },
+                showMsg: function() {
+                    console.log(this.msg);
+                }
+             }
+         });
+     </script>
+</body>
+</html>
