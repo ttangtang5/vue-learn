@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-if、v-else</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+     <div id="app">
+        <button @click = " flag = true">登录</button>
+        <button @click = " flag = false">注册</button>
+
+        <login v-if="flag"></login>
+        <!--必须紧跟v-if 意思 flag为false显示 写不写=“flag”无影响-->
+        <register v-else="flag"></register>
+     </div>
+
+     <script>
+         Vue.component('login', {
+             template: '<h2>登录组件</h2>'
+         });
+
+         Vue.component('register', {
+             template: '<h2>注册组件</h2>'
+         });
+
+         new Vue({
+             el: '#app',
+             data: {
+                 flag: true
+             },
+             methods: {
+                
+             }
+         });
+     </script>
+</body>
+</html>

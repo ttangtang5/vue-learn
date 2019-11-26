@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件-创建</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        .v-enter,.v-leave-to {
+            opacity: 0;
+            transform: translateX(150px);
+        }
+
+        .v-enter-active, .v-leave-active {
+            transition: all 0.8s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div>创建组件的三种方式</div>
+        <div>注意template中只能有一个根元素。</div>
+        <div>1、 通过使用Vue.extend 创建全局组件</div>
+        <my-com1></my-com1>
+        <div>2、 直接通过Vue.component创建组件</div>
+        <my-com2></my-com2>
+        <div>3、 通过向传入组件的模版结构, 模版写在vue实例代码之外</div>
+        <my-com3></my-com3>
+
+        <div>在实例声明私有组件</div>
+        <private></private>
+
+        <div>组件中声明data，组件data必须为function，而且data 必须返回一个对象 data变量使用直接按原来方法写于template中</div>
+        <my-data></my-data>
+
+        <div>通过component元素标签占位符 :is属性 可以用来指定组件名称 :is 加引号为常量 否则为data中变量</div>
+        <component :is="'login'"></component>
+        <component :is="componentId"></component>
+
+        <div>模块切换动画 mode属性设置 组件切换的顺序 默认同时进行 out-in 表示组件先出后进</div>
+        <button @click=" componentId = 'login'">登录</button>
+        <button @click=" componentId = 'register'">注册</button>
+
+        <transition mode="out-in">
+            <component :is="componentId"></component>
+        </transition>
+    </div>
+
+    <template id="temp">
+        <h4>这个是引用方式创建的组件</h4>
+    </template>
+
+    <script>
+        //1、 通过使用Vue.extend 创建全局组件
+        // 1.1、编写组件代码
+        let comp1 = Vue.extend({
+            template: '<h2>这是同Vue.extend创建的组件</h2>'
+        });
+        // 1.2 声明组件, 第一个参数为标签名称 使用是需要把驼峰改为‘-’连接
+        Vue.component('myCom1', comp1);
+        // 简写
+        //Vue.component('myCom1', Vue.extend({
+        //    template: '<h2>这是同Vue.extend创建的组件</h2>'
+        //}));
+
+        // 2、直接通过Vue.component创建组件
+        Vue.component('myCom2', {
+            template: '<h3>这是同Vue.Component创建的组件</h3>'
+        });
+
+        // 3、先template传来写好的代码（写在vue控制之外）
+        Vue.component('myCom3', {
+            template: '#temp'
+        });
+
+        // 组件中声明data  组件data必须为function，而且data 必须返回一个对象。 data变量使用直接按原来方法写于template中
+        let dataRes = {
+            dataMsg: ''
+        };
+        Vue.component('myData', {
+            template: '<h5>这是组件data使用 {{dataMsg}}</h5>',
+            data: function () {
+                //return dataRes; 如果这样返回 会导致所有该组件使用同一份data数据
+                return {
+                    dataMsg: '这是组件自己的data变量'
+                }
+            }
+        });
+
+        Vue.component('login', {
+            template: '<h2>登录组件</h2>'
+        });
+
+        Vue.component('register', {
+            template: '<h2>注册组件</h2>'
+        });
+
+        new Vue({
+            el: '#app',
+            components: {
+                private: {
+                    // 此处仍可以传入id
+                    template: '<h6>这是私有组件</h6>'
+                }
+            },
+            data: {
+                msg: 'v-cloak演示',
+                componentId: 'register'
+            },
+            methods: {
+
+            }
+        });
+    </script>
+</body>
+
+</html>

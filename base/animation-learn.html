@@ -77,15 +77,47 @@
             @leave-cancelled="leaveCancelled">
             <h2 v-if="flag">动画周期函数演示</h2>
         </transition>
+
+        <div>当for循环出来的元素需要动画 需要用transitionGroup标签 而不是transition</div>
+        <button @click="add">添加</button>
+        <ul>
+            <transition-group>
+                <li v-for="item in arr" :key="item.id">{{ item.name }}</li>
+            </transition-group>
+        </ul>
+
     </div>
 
     <script>
         new Vue({
             el: '#app',
             data: {
-                flag: false
+                flag: false,
+                arr: [{
+                        id: 1,
+                        name: 'a'
+                    },
+                    {
+                        id: 2,
+                        name: 'b'
+                    },
+                    {
+                        id: 3,
+                        name: 'c'
+                    },
+                    {
+                        id: 4,
+                        name: 'd'
+                    }
+                ]
             },
             methods: {
+                add() {
+                    this.arr.push({
+                        id: 5,
+                        name: 'e'
+                    });
+                },
                 // 动画初始状态
                 beforeEnter(el) {
                     el.style.transform = 'translate(0,0)';

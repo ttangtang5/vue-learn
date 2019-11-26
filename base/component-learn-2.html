@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件-父子传值</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <div>子组件 默认时无法直接访问父组件的data和method</div>
+        <div>========父值传给子========</div>
+        <div>父组件和子组件 通过属性设置进行传递data</div>
+        <div>1、在子组件 声明接收父组件数据属性 eg：props:{name}</div>
+        <div>2、使用子组件是将父组件的值，设置在对应接收属性上</div>
+        <div>data 中的变量不可于props重名 否则报错</div>
+        <div>props 的数据不推荐修改，修改vue会报warn</div>
+        <comp :name="msg" ></comp>
+        <div>========父方法传给子========</div>
+        <div>这里不能添加括号  括号表示 方法结果赋值</div>
+        <div>1、在组件使用 处声明@自定义名字=“父方法”</div>
+        <div>2、子组件在自己的method的方法中通过 this.$emit('自定义名字'[,第二参数起均为方法参数值]) emit：触发调用</div>
+        <comp @func="show"></comp>
+
+        <div>========子给父传值========</div>
+        <div>子组件data值传递父组件原理是利用调用父组件方法方式</div>
+        <comp @func="show"></comp> sonName ==== {{sonName}}
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            components: {
+                comp: {
+                    template: '<h2 @click="selfClick">这是子组件--{{name}}</h2>',
+                    // props: ['name']  这样写也可以
+                    props: {
+                        name
+                    },
+                    data() {
+                        return { 
+                            // name: '子组件'
+                        }
+                    },
+                    methods: {
+                        selfClick() {
+                            this.$emit('func', '123' , 'abc');
+                        }
+                    }
+                },
+                comp: {
+                    template: '<h2 @click="selfClick">这是子组件</h2>',
+                    data() {
+                        return { 
+                            name: '子组件'
+                        }
+                    },
+                    methods: {
+                        selfClick() {
+                            this.$emit('func', this.name);
+                        }
+                    }
+                }
+            },
+            data: {
+                msg: '父组件',
+                sonName: null
+            },
+            methods: {
+                show(data) {
+                    console.log('子组件传的值：' + data);
+                    this.sonName = data;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
