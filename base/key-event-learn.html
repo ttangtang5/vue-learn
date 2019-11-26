@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>键盘事件</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+     <div id="app">
+         <input type="text" placeholder="keyup" @keyup="test">
+         <input type="text" placeholder="enter" @keyup.enter="test">
+         <div>113 为F12的键盘码</div>
+         <input type="text" placeholder="自定义键盘修饰符" @keyup.113="test">
+         <input type="text" placeholder="自定义键盘修饰符" @keyup.f2="test">
+     </div>
+
+     <script> 
+        // 配置全局键盘事件别名
+        Vue.config.keyCodes.f2  = 113;
+         new Vue({
+             el: '#app',
+             data: {
+                 msg: 'filter演示'
+             },
+             methods: {
+                test() {
+                    console.log(1);
+                }
+             }
+         });
+
+     </script>
+</body>
+</html>

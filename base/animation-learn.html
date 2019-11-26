@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>过渡和动画</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="../lib/animate.css" />
+    <style>
+        /* .v-enter 元素的起始状态 */
+        /* .v-leave-to 元素结束状态 */
+        .v-enter,
+        .v-leave-to {
+            opacity: 0;
+            transform: translateX(150px);
+        }
+
+        /* v-enter-active 入场动画 */
+        /* v-leave-active 出场动画 */
+        .v-enter-active,
+        .v-leave-active {
+            transition: all 0.8s ease;
+        }
+
+        .my-enter,
+        .my-leave-to {
+            opacity: 0;
+            transform: translateY(150px);
+        }
+
+        .my-enter-active,
+        .my-leave-active {
+            transition: all 0.8s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="toggle" @click="flag = !flag">
+        <div>动画使用步骤</div>
+        <div>1、使用transition元素 把需要被动画控制的元素包裹</div>
+        <div>2、设置过渡样式。写两组样式v-enter、v-leave-to和.v-enter-active、v-leave-active</div>
+        <transition>
+            <h2 v-if="flag">动画演示</h2>
+        </transition>
+        <div>通过name区别不同的动画 name为class前缀 默认为v</div>
+        <transition name="my">
+            <h4 v-if="flag">设置name动画演示</h4>
+        </transition>
+
+        <div>通过animation动画库实现</div>
+        <!-- enter-active-class 进入动画 leave-active-class 离开动画  一定要什么基础样式animated -->
+        <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut">
+            <h2 v-if="flag">animation库动画演示</h2>
+        </transition>
+
+        <!-- 第二种写法 将基础样式声明在需要动画元素上 -->
+        <transition enter-active-class="bounceIn" leave-active-class="bounceOut">
+            <h2 class="animated" v-if="flag">animation库动画演示</h2>
+        </transition>
+
+        <div>设置统一进入、和出场的时间 duration 单位毫秒</div>
+        <transition enter-active-class="bounceIn" leave-active-class="bounceOut" :duration="300">
+            <h2 class="animated" v-if="flag">animation库动画演示</h2>
+        </transition>
+        <div>分别设置进入、和出场的时间 duration 单位毫秒</div>
+        <transition enter-active-class="bounceIn" leave-active-class="bounceOut" :duration="{enter: 300, leave: 500}">
+            <h2 class="animated" v-if="flag">animation库动画演示</h2>
+        </transition>
+
+        <div>动画周期函数</div>
+        <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter"
+            @enter-cancelled="leaveCancelled" @before-leave="beforeLeave" @leave="leave" @after-leave="afterEnter"
+            @leave-cancelled="leaveCancelled">
+            <h2 v-if="flag">动画周期函数演示</h2>
+        </transition>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                flag: false
+            },
+            methods: {
+                // 动画初始状态
+                beforeEnter(el) {
+                    el.style.transform = 'translate(0,0)';
+                },
+                // 进入动画 通过done实现动画结束后立即消失
+                enter(el, done) {
+                    el.offsetWidth;
+                    el.style.transform = 'translate(150px, 450px)';
+                    el.style.transition = 'all 1s ease';
+
+                    // 官方要求的
+                    done();
+                },
+                // 动画之后的状态
+                afterEnter(el) {
+                    //this.flag = !this.flag;
+                },
+                // 取消动画
+                enterCancelled(el) {
+
+                },
+                beforeLeave(el) {},
+                leave(el, done) {},
+                afterLeave(el) {},
+                leaveCancelled(el) {}
+            }
+        });
+    </script>
+</body>
+
+</html>

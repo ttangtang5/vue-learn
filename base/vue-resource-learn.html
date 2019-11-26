@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue-resource 请求</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--必须先引入vue  vue-resource依赖于vue-->
+    <script src="../lib/vue-resource-1.3.4.js"></script>
+</head>
+<body>
+     <div id="app">
+         <button @click="get">get请求</button>
+         <button @click="post">post请求</button>
+         <button @click="jsonp">jsonp请求</button>
+     </div>
+
+     <script>
+         // 设置全局的base_url 这样配置注意请求时一定不能已“/”开头，否则不会使用base_url拼接
+         Vue.http.options.root = 'https://jsonplaceholder.typicode.com/';
+         // 设置全局的application/x-www-form-urlencoded
+         //Vue.http.options.emulateJSON = true;
+         new Vue({
+             el: '#app',
+             // 第二种base_url 配置
+             //http: {
+             //    root: 'https://jsonplaceholder.typicode.com/'
+             //},
+             data: {
+                 msg: ''
+             },
+             methods: {
+                get() {
+                    this.$http.get('todos/1')
+                    .then( res => {
+                        console.log(res);
+                    });
+                },
+                post() {
+                    // 请求默认为application/json 通过设置emulateJson:true 可以将contentType设置为application/x-www-form-urlencoded
+                    // 第二个参数为data，第三个options  
+                    this.$http.post('posts', {}, {})
+                    .then(res => {
+                        console.log(res);
+                    });
+                },
+                jsonp() {
+                    this.$http.jsonp('')
+                    .then( res => {
+
+                    });
+                }
+             }
+         });
+
+     </script>
+</body>
+</html>

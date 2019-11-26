@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue生命周期学习</title>
+    <script src="https://cdn.bootcss.com/vue/2.4.2/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{message}}</h1>
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            message: 'Vue的生命周期'
+        },
+        beforeCreate: function () {
+            console.group('------beforeCreate创建前状态------');
+            console.log('beforeCreate时，data的数据和methods方法均未初始化');
+            console.log("%c%s", "color:red", "el     : " + this.$el); //undefined
+            console.log("%c%s", "color:red", "data   : " + this.$data); //undefined 
+            console.log("%c%s", "color:red", "message: " + this.message);
+            // this.show();  报错
+        },
+        created: function () {
+            console.group('------created创建完毕状态------');
+            console.log('在此方法运行前，data的数据和methods方法均已初始化');
+            console.log('这是最早能调用data和methods的方法');
+            console.log("%c%s", "color:red", "el     : " + this.$el); //undefined
+            console.log("%c%s", "color:red", "data   : " + this.$data); //已被初始化 
+            console.log("%c%s", "color:red", "message: " + this.message); //已被初始化
+            this.show();
+        },
+        beforeMount: function () {
+            console.group('------beforeMount挂载前状态------');
+            console.log('此时模版编译完成，放在内存之中。还未挂载到浏览器渲染');
+            console.log("%c%s", "color:red", "el     : " + (this.$el)); //已被初始化
+            console.log(this.$el);
+            console.log("%c%s", "color:red", "data   : " + this.$data); //已被初始化  
+            console.log("%c%s", "color:red", "message: " + this.message); //已被初始化  
+            this.show();
+        },
+        mounted: function () {
+            console.group('------mounted 挂载结束状态------');
+            console.log('此之前已经将内存中模版挂载到浏览器中，浏览器也将页面渲染了，此时表示实例完全创建好了');
+            console.log('不可在此生命周期函数之前，操作dom。此函数才可以开始操作dom了');
+            console.log("%c%s", "color:red", "el     : " + this.$el); //已被初始化
+            console.log(this.$el);
+            console.log("%c%s", "color:red", "data   : " + this.$data); //已被初始化
+            console.log("%c%s", "color:red", "message: " + this.message); //已被初始化 
+            this.show();
+        },
+        beforeUpdate: function () {
+            console.group('beforeUpdate 更新前状态===============》');
+            console.log('此时数据已更新，浏览器还未渲染，页面还是旧数据。');
+            console.log('页面数据：' + document.getElementById('app').innerText);
+            console.log("%c%s", "color:red", "el     : " + this.$el);
+            console.log(this.$el);
+            console.log("%c%s", "color:red", "data   : " + this.$data);
+            console.log("%c%s", "color:red", "message: " + this.message);
+            this.show();
+        },
+        updated: function () {
+            console.group('updated 更新完成状态===============》');
+            console.log('浏览器已渲染，页面显示更新之后的数据。');
+            console.log('页面数据：' + document.getElementById('app').innerText);
+            console.log("%c%s", "color:red", "el     : " + this.$el);
+            console.log(this.$el);
+            console.log("%c%s", "color:red", "data   : " + this.$data);
+            console.log("%c%s", "color:red", "message: " + this.message);
+            this.show();
+        },
+        beforeDestroy: function () {
+            console.group('beforeDestroy 销毁前状态===============》');
+            console.log('还未执行真正的销毁，所有的内容还可以使用');
+            console.log("%c%s", "color:red", "el     : " + this.$el);
+            console.log(this.$el);
+            console.log("%c%s", "color:red", "data   : " + this.$data);
+            console.log("%c%s", "color:red", "message: " + this.message);
+            this.show();
+        },
+        destroyed: function () {
+            console.group('destroyed 销毁完成状态===============》');
+            console.log('此时销毁完成。所有内容均不可用了')
+            console.log("%c%s", "color:red", "el     : " + this.$el);
+            console.log(this.$el);
+            console.log("%c%s", "color:red", "data   : " + this.$data);
+            console.log("%c%s", "color:red", "message: " + this.message);
+            this.show();
+        },
+        methods: {
+            show() {
+                console.log('show method');
+            }
+        }
+    })
+</script>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>directive 指令</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+     <div id="app">
+         <div>使用指令实现输入框聚焦, 指令传值如果没有引号就表示变量 有引号表示字符串</div>
+         <input type="text" v-focus v-color="'red'">
+     </div>
+
+     <script>
+        // Vue.directive 定义全局指令
+        // 第一个参数为指令名称  注意使用时指令的名称前面 加v-修饰
+        // 第二个参数是一个对象，这个对象身上，有一些指令相关的函数，这些函数可以再特定的阶段，执行相关的操作
+        Vue.directive('focus', {
+            // bind 每当指令绑定到元素上的时候，会立即执行该方法 只执行一次
+            bind: function(el){
+                // 每个函数中 第一个参数 一直是el  表示 被绑定了指令的元素的原生js对象
+
+                // 注意再此操作元素时 还未插入dom。 勿将页面中展示效果处理放此处(样式可以)。还未插入dom  浏览器是不会渲染的
+            },
+            // inserted 当元素插入到dom中的时候，会执行该函数  执行一次
+            inserted: function(el) {
+                el.focus();
+            },
+            // 当vnode更新时候 会执行该函数  可能会触发多次
+            updated: function(el) {}
+        });
+
+        Vue.directive('color', {
+            bind: function(el, binding){
+                // 样式，只要通过指令绑定给元素，不管该元素还是否插入dom中，该元素必有该内联颜色，效果必然会被浏览器渲染出来
+                el.style.color = binding.value;
+
+                console.log('指令名称：' + binding.name);
+                console.log('指令绑定的值：' + binding.value);
+                console.log('指令绑定的值的字符串形式：' + binding.expression);
+            },
+            inserted: function(el) {
+
+            },
+            updated: function(el) {
+
+            }
+        });
+
+        // 简写的指令  只使用bind和updated  并且两个方法代码一样。
+        Vue.directive('simpleColor', function(el, binding){
+            el.style.color = 'red';
+        });
+
+         new Vue({
+             el: '#app',
+             data: {
+                 msg: 'filter演示'
+             },
+             methods: {
+                
+             },
+             directives: { // 私有指令
+                'fontWeight': {
+                    bind: function(el, binding) {
+                        el.style.fontWeight = 200;
+                    },
+                    inserted: function(el, binding) {},
+                    updated: function(el, binding) {}
+                },
+                'simpleColor': function(el, binding) {
+                    el.style.color = 'red';
+                }
+             }
+         });
+
+     </script>
+</body>
+</html>
