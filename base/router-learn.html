@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>router使用</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="../lib/vue-router-3.0.1.js"></script>
+
+    <style>
+        .router-link-active {
+            color: red
+        }
+
+        .myActive {
+            color: blue
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div>1、引入routerjs</div>
+        <div>2、创建一个路由对象 new VueRouter({}) routes属性为匹配规则</div>
+        <a href="#/login">login</a>
+        <a href="#/register">register</a>
+        <div>router-link 默认渲染成a标签 可以通过tag设置渲染成什么标签</div>
+        <div>当前激活的链接 自带独有的class。 只需对该class添加样式即可. router的api有相关说明在router-link标签中</div>
+        <router-link to="/login" tag="span">login</router-link>
+        <router-link to="/register">register</router-link>
+        <router-view></router-view>
+    </div>
+
+    <template id="account">
+        <div>
+            <div>account 组件</div>
+            <router-link to="/login" tag="span">login-1</router-link>
+            <router-link to="/account/register">register-1</router-link>
+            <router-view></router-view>
+        </div>
+
+    </template>
+
+    <script>
+        const account = {
+            template: '#account'
+        }
+
+        const login = {
+            template: '<h2>login</h2>'
+        }
+
+        const register = {
+            template: '<h2>register</h2>'
+        }
+
+        // 创建路由对象
+        const router = new VueRouter({
+            // 注意这个单词别写错了 routes 路线的意思
+            routes: [ // 路由匹配规则  每个规则为一个对象  每个对象必须要有属性path和component
+                {
+                    path: '/',
+                    redirect: '/account' // 重定向
+                },
+                {
+                    path: '/account',
+                    component: account,
+                    children: [{
+                            // 注意此处不要乱加“/”  加了斜杠写法不一样 而且URL显示也是不一样 
+                            path: '/login',
+                            component: login
+                        },
+                        {
+                            path: 'register',
+                            component: register
+                        }
+                    ]
+                },
+                {
+                    path: '/login', // 表示url路径
+                    // 这里传入的是组件模版对象，不是组件引用名称  
+                    component: login // 表示url匹配path是  routerview 展示component组件内容
+                },
+                {
+                    path: '/register',
+                    component: register
+                }
+            ],
+            linkActiveClass: 'myActive'
+        });
+
+        new Vue({
+            el: '#app',
+            router: router,
+            data: {
+
+            },
+            methods: {}
+        });
+    </script>
+</body>
+
+</html>

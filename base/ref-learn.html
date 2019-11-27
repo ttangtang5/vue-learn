@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ref 获取DOM</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <button @click="getDom">获取Dom</button>
+        <div>1、vue实例有一个refs属性存储有ref属性的标签DOM，获取就是this.$refs.ref属性值</div>
+        <div>2、通过ref 获取组件的data和调用组件method</div>
+        <h3 ref="h3Dom">这是h3标签</h3>
+
+        <login ref="login"></login>
+    </div>
+
+    <script>
+
+        new Vue({
+            el: '#app',
+            data: {
+                
+            },
+            components: {
+                login: {
+                    template: '<h2>login</h2>',
+                    data() {
+                        return {
+                            msg: 'component value'
+                        }
+                    },
+                    methods: {
+                        show() {
+                            console.log('component method');
+                            this.msg = 'new value';
+                        }
+                    },
+                }
+            },
+            methods: {
+                getDom() {
+                    console.log(this.$refs.h3Dom.innerText);
+                    // 获取组件的data
+                    console.log(this.$refs.login.msg);
+                    // 调用组件中的方法
+                    this.$refs.login.show();
+                    console.log(this.$refs.login.msg);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

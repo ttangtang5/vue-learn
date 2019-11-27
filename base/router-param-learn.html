@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>router 参数使用</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="../lib/vue-router-3.0.1.js"></script>
+
+    <style >
+    .router-link-active {
+        color: red
+    }
+
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div>1、第一种传参 在使用处直接拼接参数 这种形式参数值存放在query</div>
+      <router-link to="/login?id=tang">login</router-link>
+      <router-link to="/register">register</router-link>
+      <hr>
+      <div>2、第二种传参 resetFul 形式 在路由配置/:id 这里的id主要用于参数的获取  这种形式参数值存放在params属性</div>
+      <router-link to="/login" >login</router-link>
+      <router-link to="/register/second">register</router-link>
+      <router-view></router-view>
+    </div>
+
+    <script>
+        const login = {
+            template: '<h2>login==={{ $route.query.id }}</h2>',
+            created() {
+                console.log(this.$route.query.id);
+                
+            },
+        }
+
+        const register = {
+            template: '<h2>register==={{ $route.params.id }}</h2>',
+            created() {
+                console.log(this.$route.params.id);
+            },
+        }
+
+        // 创建路由对象
+        const router = new VueRouter({
+            // 注意这个单词别写错了 routes 路线的意思
+            routes: [ // 路由匹配规则  每个规则为一个对象  每个对象必须要有属性path和component
+                {
+                    path: '/',
+                    redirect: '/login' // 重定向
+                },
+                {
+                    path: '/login', // 表示url路径
+                    // 这里传入的是组件模版对象，不是组件引用名称  
+                    component: login // 表示url匹配path是  router-view 展示component组件内容
+                },
+                {
+                    path: '/register/:id', // 参数同理可传多个
+                    component: register
+                }
+            ]
+        });
+
+        new Vue({
+            el: '#app',
+            router,
+            data: {
+                
+            },
+            methods: {
+            },
+            watch: {
+                // 监听url变化
+                '$route': function(to, from) {
+                    console.log(1);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
