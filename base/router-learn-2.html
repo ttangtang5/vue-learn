@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>router使用</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="../lib/vue-router-3.0.1.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <!-- 默认匹配 components中的default -->
+        <router-view></router-view>
+        <!-- name 表示匹配 components中的left属性组件 -->
+        <router-view name="left"></router-view>
+        <router-view name="main"></router-view>
+    </div>
+    <script>
+        const header = {
+            template: '<h1>header</h1>'
+        }
+
+        const leftSide = {
+            template: '<h1>leftSide</h1>'
+        }
+
+        const main = {
+            template: '<h1>main</h1>'
+        }
+
+        const router = new VueRouter({
+            routes: [
+                {
+                    path: '/',
+                    // 注意这里有多个组件 属性名为components 有s
+                    components: {
+                        default: header,
+                        left: leftSide,
+                        main: main
+                    }
+                }
+            ]
+        })
+
+        new Vue({
+            el: '#app',
+            router,
+            data: {
+
+            },
+            methods: {}
+        });
+    </script>
+</body>
+
+</html>
