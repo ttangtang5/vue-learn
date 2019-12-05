@@ -1,0 +1,7 @@
+body {
+    /* webpack 无法解析路径 需要通过url-loader处理 */
+    background-image: url('../images/demo.jpg');
+}
+h2 {
+    color: red
+}

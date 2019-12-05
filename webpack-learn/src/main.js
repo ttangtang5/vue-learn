@@ -10,6 +10,20 @@
 // 需要声明模式，可以消除警告webpack ./src/main.js -o ./dist/bundle.js --mode development
 import $ from 'jquery';
 
+// 使用import 导入css样式表
+import './css/index.css'
+// 注意： webpack。默认只能打包处理js文件，无法处理非js类型之外的文件
+// 如果需要处理其他类型的文件，需要安装第三方loader。
+// 打包处理css文件 处理过程
+// 1、安装style-loader和css-loader
+// 2、在webpack.conf.js中配置一个新节点 module，它是一个对象。module中有个rules属性，rules为数组，该数组存放所有第三方文件的匹配和处理规则
+// 3、rules中 设置test属性和use属性 test为正则匹配  use为声明用什么第三方处理
+
+// webpack 处理第三方文件类型
+// 1、判断文件是否为js文件。不是 则去module中匹配第三方模块处理
+// 2、查找匹配规则，匹配到则 使用use中的模块处理。
+// 3、use中的模块，后面的先处理，依次往前处理调用
+// 4、最后一个loader 调用完毕  会把处理结果给webpack进行打包合并 最终输出到bundle.js中去
 $(function() {
     console.log('hello webpack');
     console.log('hello webpack-dev-server 第二种配置');
