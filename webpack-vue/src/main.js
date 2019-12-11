@@ -4,10 +4,12 @@ import vue from 'vue';
 // webpack 无法处理vue文件 需要安装vue-loader、vue-template-compiler
 // 配置webpack，module中rules{test:/\.vue$/, use: 'vue-loader'}
 import App from './app.vue';
+import router from './router';
 
 new vue({
     el: '#app',
-    render: h => h(App)
+    render: h => h(App),
+    router
 });
 
 // webpack 中如何使用vue
