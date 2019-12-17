@@ -5,11 +5,13 @@ import vue from 'vue';
 // 配置webpack，module中rules{test:/\.vue$/, use: 'vue-loader'}
 import App from './app.vue';
 import router from './router';
+import store from './store';
 
 new vue({
     el: '#app',
     render: h => h(App),
-    router
+    router,
+    store
 });
 
 // webpack 中如何使用vue

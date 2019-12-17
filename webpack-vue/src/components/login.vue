@@ -1,12 +1,17 @@
 <template>
   <div>
       <h2>login</h2>
+      <demo></demo>
   </div>
 </template>
 
 <script>
-export default {
+import demo from './demo.vue';
 
+export default {
+  components: {
+    demo
+  }
 }
 </script>
 
